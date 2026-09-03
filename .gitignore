@@ -1,0 +1,198 @@
+# ==============================================
+# Compilación y Build Output
+# ==============================================
+
+# Directorio principal de compilación
+BuildOutput/
+build/
+out/
+
+# ==============================================
+# Archivos generados por C/C++
+# ==============================================
+
+# Archivos objeto
+*.o
+*.obj
+*.lo
+
+# Librerías estáticas compiladas
+*.a
+*.lib
+*.ar
+
+# Ejecutables y firmware
+*.elf
+*.hex
+*.bin
+*.map
+*.lss
+*.sym
+*.exe
+*.out
+
+# Archivos de dependencias
+*.d
+*.dep
+*.d.cmd
+
+# ==============================================
+# Archivos generados por CMake
+# ==============================================
+
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+*.make
+compile_commands.json
+CTestTestfile.cmake
+_deps/
+CMakeUserPresets.json
+
+# ==============================================
+# Archivos generados por el linker
+# ==============================================
+
+*.ld.bak
+linker.*
+
+# ==============================================
+# Python / Entorno virtual
+# ==============================================
+
+.venv/
+venv/
+ENV/
+env/
+*.pyc
+__pycache__/
+*.pyo
+*.pyd
+.Python
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# ==============================================
+# IDEs y Editores
+# ==============================================
+
+# Visual Studio Code
+.vscode/settings.json
+.vscode/tasks.json
+.vscode/launch.json
+.vscode/extensions.json
+*.code-workspace
+
+# Nota: Mantén .vscode/scripts/ si contiene scripts útiles
+# .vscode/scripts/
+
+# Eclipse
+.project
+.classpath
+.settings/
+
+# CLion / IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Keil / uVision
+*.uvoptx
+*.uvopt
+*.uvprojx
+
+# IAR
+*.ewp
+*.eww
+*.dep
+
+# Vim
+*.swp
+*.swo
+*.swn
+*~
+
+# Emacs
+*~
+\#*\#
+.\#*
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# ==============================================
+# Debugging y Core dumps
+# ==============================================
+
+*.core
+*.stackdump
+*.dump
+gdb.txt
+
+# ==============================================
+# Logs y archivos temporales
+# ==============================================
+
+*.log
+*.tmp
+*.temp
+*~
+
+# ==============================================
+# Flash / Debug tools
+# ==============================================
+
+# J-Link
+*.JLinkLog
+*.JLinkScript
+flash_output.txt
+
+# OpenOCD
+openocd.log
+
+# ==============================================
+# Otros archivos comunes
+# ==============================================
+
+# Archivos de backup
+*.bak
+*.backup
+
+# Archivos comprimidos
+*.zip
+*.tar.gz
+*.rar
+
+# ==============================================
+# NOTA: Librerías precompiladas de vendors
+# ==============================================
+# Los siguientes directorios contienen librerías precompiladas (.a)
+# que DEBEN mantenerse en el repositorio:
+#   - Libs/niq/libniq-*.a
+#   - Libs/uwbstack_libs/delivery/**/lib*.a
+#   - SDK_BSP/Nordic/SDK_17_1_0/**/*.a
+#   - SDK_BSP/Nordic/SDK_17_1_0/external/**/*.a
+#   - SDK_BSP/Nordic/SDK_17_1_0/components/toolchain/cmsis/dsp/GCC/*.a
+#   - SDK_BSP/Nordic/SDK_17_1_0/components/802_15_4/**/*.a
+#   - SDK_BSP/Nordic/SDK_17_1_0/components/nfc/**/*.a
+#   - SDK_BSP/Nordic/SDK_17_1_0/components/proprietary_rf/**/*.a
+#   - SDK_BSP/Nordic/SDK_17_1_0/examples/**/*.hex (firmwares de ejemplo del SDK)
+#   - SDK_BSP/Nordic/SDK_17_1_0/components/softdevice/**/*.hex (softdevices)
+#
+# El .gitignore solo ignora *.a en la raíz y BuildOutput/,
+# no en los directorios de vendors/SDKs.
