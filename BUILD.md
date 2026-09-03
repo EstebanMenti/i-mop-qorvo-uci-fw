@@ -1,6 +1,6 @@
 # Instrucciones de Compilación
 
-Este documento describe cómo compilar y flashear el firmware **UCI** del DWM3001C (el repositorio también incluye los targets alternativos CLI y QANI, no usados por este proyecto; ver [README.md](README.md)). Para una visión general del proyecto, ver [README.md](README.md).
+Este documento describe cómo compilar y flashear el firmware **UCI** del DWM3001C (el repositorio también incluye los targets alternativos CLI y QANI, no usados por este proyecto; ver [README.md](README.md)). Para una visión general del proyecto, ver [README.md](README.md). Para la referencia exhaustiva de todos los parámetros de compilación (herramientas, versiones, variables de entorno, scripts, flags), ver [docs/BUILD_PARAMETERS.md](docs/BUILD_PARAMETERS.md).
 
 ## 📋 Tabla de Contenidos
 
