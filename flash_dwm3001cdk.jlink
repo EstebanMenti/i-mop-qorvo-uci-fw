@@ -1,0 +1,7 @@
+si 1
+speed 4000
+device nrf52833_xxaa
+loadfile C:\Users\Esteban\Documents\GitHub\i-mop-qorvo-uci-fw\BuildOutput\UCI\FreeRTOS\DWM3001CDK\Release\DWM3001CDK-UCI-FreeRTOS.hex
+r
+g
+exit
