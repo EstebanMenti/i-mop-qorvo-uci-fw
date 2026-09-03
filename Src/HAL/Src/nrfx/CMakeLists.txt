@@ -3,10 +3,21 @@
 
 set(NRFX_DIR ../nrfx)
 
-add_library(
-  HAL ${NRFX_DIR}/HAL_crypto.c ${NRFX_DIR}/HAL_watchdog.c ${NRFX_DIR}/HAL_uart.c
-      ${NRFX_DIR}/HAL_error.c ${NRFX_DIR}/HAL_usb.c ${NRFX_DIR}/HAL_cpu.c
+# Set source files list
+set(HAL_SRCS
+    ${NRFX_DIR}/HAL_crypto.c
+    ${NRFX_DIR}/HAL_watchdog.c
+    ${NRFX_DIR}/HAL_uart.c
+    ${NRFX_DIR}/HAL_error.c
+    ${NRFX_DIR}/HAL_cpu.c
 )
+
+# Add USB source only if USB is enabled
+if(USB_ENABLE)
+  list(APPEND HAL_SRCS ${NRFX_DIR}/HAL_usb.c)
+endif()
+
+add_library(HAL ${HAL_SRCS})
 
 target_include_directories(HAL PUBLIC ../../Inc)
 target_include_directories(HAL PUBLIC ../../../Boards/Src/${MY_BOARD}/Common)

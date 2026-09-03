@@ -1,7 +1,12 @@
 # SPDX-FileCopyrightText: Copyright (c) 2025 Qorvo US, Inc.
 # SPDX-License-Identifier: LicenseRef-QORVO-2
 
-add_library(Interface Src/InterfUsb.c)
+if(USB_ENABLE)
+  add_library(Interface Src/InterfUsb.c)
+else()
+  # Use stub implementation when USB is disabled
+  add_library(Interface Src/InterfStub.c)
+endif()
 
 target_include_directories(Interface PUBLIC Inc)
 

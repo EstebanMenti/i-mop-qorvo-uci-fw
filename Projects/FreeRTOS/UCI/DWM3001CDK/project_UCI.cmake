@@ -11,9 +11,15 @@ set(MY_LD_FILE nRF52833.ld)
 set(CMAKE_CUSTOM_C_FLAGS
     "-Werror \
     -DBOARD_CUSTOM \
-    -DUSB_ENABLE \
     -DCONFIG_GPIO_AS_PINRESET"
 )
+
+# Uncomment -DUSB_ENABLE below to enable USB communication (disables UART)
+# set(CMAKE_CUSTOM_C_FLAGS "${CMAKE_CUSTOM_C_FLAGS} -DUSB_ENABLE")
+# set(USB_ENABLE ON)
+
+# USB disabled - set CMake variable to exclude USB sources from compilation
+set(USB_ENABLE OFF)
 
 set(MY_TARGET ${MY_BOARD}-${MY_SAMPLE}-${MY_OS})
 

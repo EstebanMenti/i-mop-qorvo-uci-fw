@@ -21,6 +21,7 @@ extern "C" {
 error_e copy_tx_msg(uint8_t *str, int len);
 error_e flush_report_buf(void);
 error_e port_tx_msg(uint8_t *str, int len);
+error_e port_tx_msg_wait(uint8_t *str, int len);
 int reset_report_buf(void);
 error_e init_tx_msg(void);
 
