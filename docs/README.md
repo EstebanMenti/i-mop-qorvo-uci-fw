@@ -5,3 +5,4 @@
 | Documento | Propósito |
 |---|---|
 | [CONTRIBUTING.md](CONTRIBUTING.md) | Flujo de trabajo con Git (ramas, commits, pull requests) y reglas de documentación de este repositorio. |
+| [BUILD_PARAMETERS.md](BUILD_PARAMETERS.md) | Referencia exhaustiva de todos los parámetros de compilación: herramientas y versiones, variables de entorno, scripts, flags y artefactos. |
