@@ -31,6 +31,7 @@
 | Script de target CMake | [`project_UCI.cmake`](../Projects/FreeRTOS/UCI/DWM3001CDK/project_UCI.cmake) |
 | Toolchain file de CMake | [`arm-none-eabi-gcc.cmake`](../Projects/Common/cmakefiles/arm-none-eabi-gcc.cmake) |
 | Tipo de build por defecto | `Release` (usado por este proyecto) |
+| Transporte de comunicación | **UART** 115200 8N1 (USB deshabilitado, `USB_ENABLE OFF`) |
 | Carpeta de build | `BuildOutput/UCI/FreeRTOS/DWM3001CDK/Release` |
 
 ---
@@ -181,8 +182,25 @@ Definidas en [`project_UCI.cmake`](../Projects/FreeRTOS/UCI/DWM3001CDK/project_U
 |---|---|
 | `-Werror` | Trata todos los warnings como errores. |
 | `-DBOARD_CUSTOM` | Define la placa como custom (DWM3001CDK no es HDK estándar). |
-| `-DUSB_ENABLE` | Habilita el transporte USB del protocolo UCI. |
 | `-DCONFIG_GPIO_AS_PINRESET` | Usa el pin GPIO como RESET. |
+
+> **Nota:** `-DUSB_ENABLE` **no** se define: el transporte de comunicación es **UART** (ver [Transporte USB/UART](#transporte-usbuart)). Para re-habilitar USB, descomentar las líneas indicadas en [`project_UCI.cmake`](../Projects/FreeRTOS/UCI/DWM3001CDK/project_UCI.cmake).
+
+### Transporte USB/UART
+
+| Variable CMake | Valor | Efecto |
+|---|---|---|
+| `USB_ENABLE` | `OFF` (actual) | Excluye `HAL_usb.c` de la librería HAL y compila `InterfStub.c` (stub) en lugar de `InterfUsb.c`; sin `-DUSB_ENABLE` el preprocesador deja la consola en UART por defecto (`COMM_UART_ALLOWED_DEFAULT true` en [`driver_app_config.c`](../Src/Apps/Src/common/config/driver_app_config.c)). |
+| `USB_ENABLE` | `ON` (alternativa) | Compila `HAL_usb.c` e `InterfUsb.c` y define `-DUSB_ENABLE`: transporte USB (CDC ACM) por defecto, conmutable a UART en runtime. |
+
+Cambios aplicados (espejados del repositorio hermano `i-mop-qorvo-cli-fw`):
+
+- [`project_UCI.cmake`](../Projects/FreeRTOS/UCI/DWM3001CDK/project_UCI.cmake): sin `-DUSB_ENABLE` y con `set(USB_ENABLE OFF)`.
+- [`Src/Comm/CMakeLists.txt`](../Src/Comm/CMakeLists.txt): `InterfStub.c` cuando `USB_ENABLE` es `OFF`.
+- [`Src/HAL/Src/nrfx/CMakeLists.txt`](../Src/HAL/Src/nrfx/CMakeLists.txt): `HAL_usb.c` solo si `USB_ENABLE` es `ON`.
+- Fix de transporte UART portado del repo CLI (commit `fc8c391`): `deca_uart_transmit()` devuelve los bytes encolados y [`usb_uart_tx.c`](../Src/Apps/Src/common/usb_uart/usb_uart_tx.c) hace rollback parcial del buffer circular para reintentar el remanente (evita pérdida de datos cuando el FIFO UART a 115200 baudios se satura), más backpressure (`port_tx_msg_wait()`) en el reporter.
+
+Configuración física UART del DWM3001CDK: 115200 baudios, 8N1, sin control de flujo (pines definidos por la placa en [`DWM3001CDK.c`](../Src/Boards/Src/DWM3001CDK/FreeRTOS/DWM3001CDK.c), RX con pull-up al reset).
 
 ### Otras definiciones
 
@@ -276,14 +294,16 @@ Archivos generados en `BuildOutput/UCI/FreeRTOS/DWM3001CDK/Release`:
 | `DWM3001CDK-UCI-FreeRTOS.bin` | Binario plano. |
 | `DWM3001CDK-UCI-FreeRTOS.map` | Mapa de memoria y símbolos. |
 
-Uso de memoria del build verificado (Release):
+Uso de memoria del build verificado (Release, transporte UART sin USB):
 
 | Región | Usado | Total | % |
 |---|---|---|---|
-| RAM | 107.420 B | 128 KB | 81,95 % |
-| FLASH | 256.572 B | 504 KB | 49,71 % |
+| RAM | 105.316 B | 128 KB | 80,35 % |
+| FLASH | 243.168 B | 504 KB | 47,12 % |
 | CALIB_SHA | 32 B | 4 KB | 0,78 % |
 | CALIB | 4 KB | 4 KB | 100 % |
+
+> Referencia histórica (build con USB habilitado, 2026-09-03): RAM 107.420 B (81,95 %), FLASH 256.572 B (49,71 %).
 
 ---
 
@@ -291,12 +311,12 @@ Uso de memoria del build verificado (Release):
 
 | Campo | Valor |
 |---|---|
-| Fecha | 2026-09-03 |
+| Fecha | 2026-09-03 (build UART-only re-verificado tras flasheo OK) |
 | Sistema | Windows 11, terminal cmd/PowerShell |
-| Configuración | `UCI` / `DWM3001CDK` / `Release` |
-| Procedimiento | `python CreateTarget.py -build Release` + `make -j` |
-| Resultado | Build 100 % sin errores ni warnings (con `-Werror`) |
-| Commit de verificación | `d1a9649` (build: add prebuilt vendor libraries required for UCI firmware build) |
+| Configuración | `UCI` / `DWM3001CDK` / `Release`, transporte UART (`USB_ENABLE OFF`) |
+| Procedimiento | `python CreateTarget.py -build Release` + `make -j` + `flash_dwm3001cdk.bat` |
+| Resultado | Build 100 % sin errores ni warnings (con `-Werror`); flasheo por J-Link OK (241.664 bytes programados y verificados) |
+| Commit de referencia | `d1a9649` (build inicial USB) / fix UART portado del repo `i-mop-qorvo-cli-fw` (`fc8c391`) |
 
 Comandos ejecutados (PowerShell/cmd, desde la raíz del repositorio):
 

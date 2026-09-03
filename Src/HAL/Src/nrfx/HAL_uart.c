@@ -94,22 +94,25 @@ void deca_uart_close(void)
 }
 
 /**
- * @brief  Function for transmitting data on UART
+ * @brief  Function for transmitting data on UART. Queues bytes one at a
+ * time into the UART TX FIFO via app_uart_put(); stops at the first byte
+ * that does not fit (FIFO full, non-blocking) instead of waiting for room.
  *
  * @param  ptr Pointer is contain base address of data.
+ * @return Number of bytes actually queued, which may be less than @p size.
  */
-int deca_uart_transmit(uint8_t *ptr, uint16_t size)
+uint16_t deca_uart_transmit(uint8_t *ptr, uint16_t size)
 {
-    int ret = NRF_SUCCESS;
-    for (int i = 0; i < size; i++)
+    uint16_t sent = 0;
+    while (sent < size)
     {
-        if (app_uart_put(ptr[i]) != NRF_SUCCESS)
+        if (app_uart_put(ptr[sent]) != NRF_SUCCESS)
         {
-            ret = _ERR_UART_TX;
             break;
         }
+        sent++;
     }
-    return ret;
+    return sent;
 }
 
 /**

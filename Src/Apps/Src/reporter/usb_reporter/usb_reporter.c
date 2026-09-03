@@ -25,7 +25,9 @@ reporter_t reporter_instance = {
 
 static error_e usb_print(char *buff, int len)
 {
-    return port_tx_msg((uint8_t *)buff, len);
+    /* Retry (instead of dropping) if the report buffer is momentarily full: CLI responses
+     * (e.g. LISTCAL, GETOTP) are not time-critical the way periodic ranging reports are. */
+    return port_tx_msg_wait((uint8_t *)buff, len);
 }
 
 static void usb_init(void)
