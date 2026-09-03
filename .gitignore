@@ -21,6 +21,13 @@ out/
 *.lib
 *.ar
 
+# NOTA: Excepciones — librerías y firmwares precompilados de vendors
+# que DEBEN mantenerse en el repositorio (ver nota al final del archivo)
+!Libs/niq/libniq-*.a
+!Libs/uwbstack_libs/delivery/**/*.a
+!SDK_BSP/Nordic/SDK_17_1_0/**/*.a
+!SDK_BSP/Nordic/SDK_17_1_0/examples/**/*.hex
+
 # Ejecutables y firmware
 *.elf
 *.hex
